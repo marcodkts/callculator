@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "callculator"
+version = "0.1.0"
+description = "This project aims to create a reliable, flexible, and scalable telephone billing application capable of processing detailed call records and delivering accurate billing information, seamlessly integrating with various telecom systems."
+authors = ["Marco Aurélio <marcodkts@wolfgear.tech>"]
+license = "BSD3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.1.3"
+drf-spectacular = "^0.27.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.0.1"
+flake8 = "^7.1.1"
+black = "^24.10.0"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.flake8]
+max-line-length = 79
+ignore = ["E203", "E266", "E501", "W503"]

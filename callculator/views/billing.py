@@ -80,6 +80,4 @@ class BillingViewSet(viewsets.GenericViewSet):
             }
         )
 
-        return Response(
-            response_serializer.errors, status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response(response_serializer.data, status=status.HTTP_200_OK)

@@ -6,7 +6,6 @@ from callculator.tools import call_cost_calculator
 
 
 class CallCostCalculatorTest(TestCase):
-
     def test_call_within_rate_period(self):
         start = datetime(
             2024, 11, 13, 10, 0, 0

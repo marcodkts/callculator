@@ -15,9 +15,11 @@ class HealthCheckResponseSerializer(serializers.Serializer):
     service = serializers.CharField(default="callculator")
     status = serializers.CharField(default="OK")
     database = serializers.CharField()
-    time = serializers.CharField(
-        default=datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    )
+
+    time = serializers.SerializerMethodField()
+
+    def get_time(self, obj):
+        return datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 class CallRecordSerializer(serializers.Serializer):
@@ -157,11 +159,11 @@ class BillingResponseSerializer(serializers.Serializer):
     records = CallSerializer(many=True, read_only=True)
 
     @staticmethod
-    def get_filtered_calls(phone_number: str, dateref: None):
+    def get_filtered_calls(phone_number: str, dateref: None | date):
         return Call.objects.filter(
             source=phone_number,
-            end__date__year=dateref.year,
-            end__date__month=dateref.month,
+            end__date__year=dateref.year if dateref else None,
+            end__date__month=dateref.month if dateref else None,
         )
 
     def to_representation(self, instance):

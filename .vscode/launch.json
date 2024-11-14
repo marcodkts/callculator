@@ -12,7 +12,7 @@
                 "--verbosity=2" // Optional: Increase output detail
             ],
             "django": true,
-            "justMyCode": true,
+            "justMyCode": false,
             "console": "integratedTerminal",
         }
     ]

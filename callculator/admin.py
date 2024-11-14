@@ -1,4 +1,4 @@
-from calendar.models import Call, CallRecord
+from callculator.models import Call, CallRecord
 
 from django.contrib import admin
 

@@ -28,11 +28,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-$vv-598*(qt&b4!v7ux6puwc1*z*yep2xbvv!rt8po@a0ejvr9"
 )
-
-# SECURITY WARNING: don't run with debug turned on in production!
+ENV = os.environ["ENVIRONMENT"]
+ALLOWED_HOSTS = ["*"]
 DEBUG = True
 
-ALLOWED_HOSTS = []
+match ENV:
+    case "PRODUCTION":
+        DEBUG = False
+        
+        # Security
+        ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
+        CSRF_TRUSTED_ORIGINS = os.environ["CSRF_TRUSTED_ORIGINS"].split(",")
+
+        # HTTPS Security
+        SESSION_COOKIE_SECURE = True
+        CSRF_COOKIE_SECURE = True
+        SECURE_SSL_REDIRECT = True
+
+        # HSTS Security
+        SECURE_HSTS_SECONDS = 31536000  # 1 year
+        SECURE_HSTS_PRELOAD = True
+        SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+        # Superuser
+        DJANGO_SU_EMAIL = os.environ["DJANGO_SU_EMAIL"]
+        DJANGO_SU_PASSWORD = os.environ["DJANGO_SU_PASSWORD"]
 
 
 # Application definition

@@ -1,12 +1,12 @@
+import re
+from datetime import date
+
 from django.utils.dateparse import parse_date
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from datetime import date
-import re
 
-from callculator.models import Call
 from callculator.serializers import BillingResponseSerializer
 
 PHONE_NUMBER_REGEX = re.compile(r"^\d{2}\d{8,9}$")
@@ -62,7 +62,9 @@ class BillingViewSet(viewsets.GenericViewSet):
             curr_date = date.today().replace(day=1)
             if dateref >= curr_date:
                 return Response(
-                    {"dateref": "There is no avaible billing for this dateref."},
+                    {
+                        "dateref": "There is no avaible billing for this dateref."
+                    },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         else:

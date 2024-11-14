@@ -6,8 +6,8 @@ class CallculatorConfig(AppConfig):
     name = "callculator"
 
     def ready(self):
-        from core.urls import urlpatterns as base_urls
         from callculator.urls import router
+        from core.urls import urlpatterns as base_urls
 
         base_urls.extend(router.urls)
 

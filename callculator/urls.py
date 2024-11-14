@@ -1,10 +1,9 @@
-from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from callculator.views.callrecord import CallRecordViewSet
-from callculator.views.billing import BillingViewSet
-from callculator.views.health import HealthCheckViewSet
 from callculator.apps import CallculatorConfig
+from callculator.views.billing import BillingViewSet
+from callculator.views.callrecord import CallRecordViewSet
+from callculator.views.health import HealthCheckViewSet
 
 base_path = CallculatorConfig.name
 router = DefaultRouter()

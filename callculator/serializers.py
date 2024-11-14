@@ -1,11 +1,10 @@
 import re
-from datetime import datetime
-from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+from datetime import date, datetime, timedelta
+
 from django.utils import timezone
+from rest_framework import serializers
 
 from callculator.models import Call, CallRecord
-
 
 PHONE_NUMBER_REGEX = re.compile(r"^\d{2}\d{8,9}$")
 
@@ -22,14 +21,20 @@ class HealthCheckResponseSerializer(serializers.Serializer):
 
 
 class CallRecordSerializer(serializers.Serializer):
-    id = serializers.IntegerField(help_text="Record unique identifier", read_only=True)
+    id = serializers.IntegerField(
+        help_text="Record unique identifier", read_only=True
+    )
     type = serializers.ChoiceField(
         choices=["START", "END"],
         help_text="Indicate if it is a 'START' or 'END' call record",
     )
-    timestamp = serializers.CharField(help_text="Timestamp from when the event happens")
+    timestamp = serializers.CharField(
+        help_text="Timestamp from when the event happens"
+    )
     call_id = serializers.IntegerField(help_text="Call")
-    source = serializers.CharField(required=False, help_text="Source phone number")
+    source = serializers.CharField(
+        required=False, help_text="Source phone number"
+    )
     destination = serializers.CharField(
         required=False, help_text="Destination phone number"
     )
@@ -42,7 +47,9 @@ class CallRecordSerializer(serializers.Serializer):
                 }
             )
 
-        if "destination" in data and not PHONE_NUMBER_REGEX.match(data["destination"]):
+        if "destination" in data and not PHONE_NUMBER_REGEX.match(
+            data["destination"]
+        ):
             raise serializers.ValidationError(
                 {
                     "destination": "Invalid phone number. It must be in the format AAXXXXXXXXX."
@@ -77,11 +84,15 @@ class CallRecordSerializer(serializers.Serializer):
                     datetime.strptime(data["timestamp"], "%Y-%m-%dT%H:%M:%SZ")
                 )
             case _:
-                raise serializers.ValidationError({"type": "Must be 'START' or 'END'"})
+                raise serializers.ValidationError(
+                    {"type": "Must be 'START' or 'END'"}
+                )
 
         call.save()
 
-        call_record = CallRecord.objects.create(record_type=data["type"], call=call)
+        call_record = CallRecord.objects.create(
+            record_type=data["type"], call=call
+        )
 
         return {**data, "id": call_record.id}
 
@@ -105,7 +116,9 @@ class CallSerializer(serializers.Serializer):
             representation["time"] = instance.start.time()
 
         if instance.duration:
-            representation["duration"] = self.format_duration(instance.duration)
+            representation["duration"] = self.format_duration(
+                instance.duration
+            )
 
         if instance.cost:
             representation["cost"] = self.format_cost(instance.cost)
@@ -131,7 +144,11 @@ class CallSerializer(serializers.Serializer):
         return f"{hours}h{minutes:02}m{seconds:02}s"
 
     def format_cost(self, cost: float) -> str:
-        return f"R$ {cost:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        return (
+            f"R$ {cost:,.2f}".replace(",", "X")
+            .replace(".", ",")
+            .replace("X", ".")
+        )
 
 
 class BillingResponseSerializer(serializers.Serializer):

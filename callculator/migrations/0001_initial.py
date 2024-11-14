@@ -45,7 +45,8 @@ class Migration(migrations.Migration):
                 (
                     "record_type",
                     models.CharField(
-                        choices=[("START", "Start"), ("END", "End")], max_length=5
+                        choices=[("START", "Start"), ("END", "End")],
+                        max_length=5,
                     ),
                 ),
                 ("timestamp", models.DateTimeField(auto_now_add=True)),

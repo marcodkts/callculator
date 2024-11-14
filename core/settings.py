@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-import tomllib, os
+import os
+import tomllib
 from pathlib import Path
 
 # Read pyproject.toml
@@ -26,7 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv(
-    "SECRET_KEY", "django-insecure-$vv-598*(qt&b4!v7ux6puwc1*z*yep2xbvv!rt8po@a0ejvr9"
+    "SECRET_KEY",
+    "django-insecure-$vv-598*(qt&b4!v7ux6puwc1*z*yep2xbvv!rt8po@a0ejvr9",
 )
 ENV = os.getenv("ENV", "LOCAL")
 ALLOWED_HOSTS = ["*"]
@@ -35,7 +37,7 @@ DEBUG = True
 match ENV:
     case "PRODUCTION":
         DEBUG = False
-        
+
         # Security
         ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
         CSRF_TRUSTED_ORIGINS = os.environ["CSRF_TRUSTED_ORIGINS"].split(",")

@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-$vv-598*(qt&b4!v7ux6puwc1*z*yep2xbvv!rt8po@a0ejvr9"
 )
-ENV = os.environ["ENVIRONMENT"]
+ENV = os.getenv("ENV", "LOCAL")
 ALLOWED_HOSTS = ["*"]
 DEBUG = True
 
@@ -51,7 +51,7 @@ match ENV:
         SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
         # Superuser
-        DJANGO_SU_EMAIL = os.environ["DJANGO_SU_EMAIL"]
+        DJANGO_SU_USERNAME = os.environ["DJANGO_SU_USERNAME"]
         DJANGO_SU_PASSWORD = os.environ["DJANGO_SU_PASSWORD"]
 
 

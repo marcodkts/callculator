@@ -80,9 +80,6 @@ class BillingViewSet(viewsets.GenericViewSet):
             }
         )
 
-        if response_serializer.is_valid():
-            return Response(response_serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(
-                response_serializer.errors, status=status.HTTP_400_BAD_REQUEST
-            )
+        return Response(
+            response_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )

@@ -1,4 +1,3 @@
-
 name: Run tests and upload coverage
 
 on:
@@ -16,6 +15,8 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
       - name: Install dependencies
         run: pip install poetry && poetry install
